@@ -1,13 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BookStatus } from 'src/book/models/enum/bookStatus';
 import { RentBookUseCase } from './rentBook.use-case';
+import { BookEntity } from 'src/book/models/entities/book.entity';
 
 describe('RentBook', () => {
   let rentBook: RentBookUseCase;
-
+  let bookentity: BookEntity;
   const mockRepository = {
     findOne: jest.fn(),
     update: jest.fn(),
+    borrowedBook: jest.fn(),
   };
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -17,10 +19,15 @@ describe('RentBook', () => {
           provide: 'IBookRepository',
           useValue: mockRepository,
         },
+        {
+          provide: BookEntity,
+          useValue: mockRepository,
+        },
       ],
     }).compile();
 
     rentBook = module.get<RentBookUseCase>(RentBookUseCase);
+    bookentity = module.get<BookEntity>(BookEntity);
   });
   it('', () => {
     expect(rentBook).toBeDefined();
@@ -34,15 +41,11 @@ describe('RentBook', () => {
         paginas: 20,
         status: BookStatus.Available,
       };
-      mockRepository.findOne.mockReturnValue(mockbook);
-
-      mockRepository.update.mockResolvedValue(null);
-
+      jest.spyOn(rentBook, 'execute').mockResolvedValue(mockbook as BookEntity);
       const id = 1;
-      await rentBook.execute(id);
+      const data = await rentBook.execute(id);
 
-      expect(mockRepository.findOne).toBeCalledTimes(1);
-      expect(mockRepository.update).toBeCalledTimes(1);
+      expect(data).toEqual(mockbook);
     });
   });
 });
