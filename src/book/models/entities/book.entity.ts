@@ -22,7 +22,7 @@ export class BookEntity {
 
   borrowedBook() {
     if (this.status === BookStatus.Borrowed) {
-      throw new BadRequestException({ message: 'book already rented' });
+      throw new BadRequestException({ message: 'livro indisponivel' });
     }
     this.status = BookStatus.Borrowed;
   }

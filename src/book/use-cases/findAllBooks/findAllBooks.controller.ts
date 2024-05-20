@@ -1,5 +1,5 @@
 import { Controller, Get, Inject } from '@nestjs/common';
-import { FindAllBookUseCase } from './findAllBook.use-case';
+import { FindAllBookUseCase } from './findAllBooks.use-case';
 
 @Controller('book')
 export class FindAllBookController {

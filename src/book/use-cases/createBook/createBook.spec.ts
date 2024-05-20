@@ -19,12 +19,12 @@ describe('CreateBookUseCase', () => {
 
     createBook = module.get<CreateBookUseCase>(CreateBookUseCase);
   });
-  it('', () => {
+  it('should be defined', () => {
     expect(createBook).toBeDefined();
   });
 
   describe('CreateBookUseCase', () => {
-    it('Deve criar um livro corretamente', async () => {
+    it('should create a book correctly', async () => {
       mockRepository.create.mockReturnValue(null);
       const bookmock = new CreateBookDTO();
       bookmock.nome = 'livro';
